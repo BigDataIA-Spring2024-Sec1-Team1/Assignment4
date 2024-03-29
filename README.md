@@ -29,13 +29,17 @@ pip install pytest
 
 ## Description
 
+Streamlit:
+
+- It is used in our application as an User Interface, so users can login and upload file and as well as look into content.
+
 Airflow:
 
 - Airflow is an orchestration tool used to automate process.
 - In our application ETL pipeline is orchestrated via airflow, 3 tasks are created to achieve it.
 -  process_recent_pdf_from_S3_task is created to process the latest pdf that was recently added based on timestamp.
 -  extract_and_process_data_task is used to extract the text from the updated pdf file and return it in form of string, the string is then conveted in a dataframe after structuring validating and cleaning the string.
--  upload_to_database_task is used to uplad the cleaned dataframe into a snowflake database
+-  upload_to_database_task is used to upload the cleaned dataframe into a snowflake database
 
 Pydantic:
 
