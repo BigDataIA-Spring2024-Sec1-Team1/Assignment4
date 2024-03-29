@@ -1,5 +1,5 @@
 # Assignment 4
-![Architecture Diagram]([(https://github.com/BigDataIA-Spring2024-Sec1-Team1/Assignment4/blob/main/architecture_diagram.png)])
+![Architecture Diagram]([https://github.com/BigDataIA-Spring2024-Sec1-Team1/Assignment4/blob/main/architecture_diagram.png])
 ## Part 1
 
 ### Prerequisites
