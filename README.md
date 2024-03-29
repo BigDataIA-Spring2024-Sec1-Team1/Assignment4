@@ -4,6 +4,23 @@ Architecture Diagram
 
 Airflow ETL Architecture
 ![Airflow ETL Architecture](https://github.com/BigDataIA-Spring2024-Sec1-Team1/Assignment4/blob/main/airflow_etl_architecture.png)
+
+## Problem Statement
+Build an end-to-end pipeline using Airflow to automate the data extraction and storing of meta-data and content of pdf files into Snowflake. 
+You will build an API service using Fast API that will accept the location of the S3-file and kickoff an Airflow pipeline where you will do:
+
+Extraction
+Data validation using tools discussed earlier
+Loading of the data and metadata into Snowflake
+b. You will build another API service using FAST API that would interface with Snowflake and return back responses to queries. 
+
+## Project Goals
+1. Your end-user application should use Streamlit as an interface to accept the pdf-file and store it in S3
+
+2. You will then kickoff the pipeline (through Streamlit) to initiate the loading of the data into Snowflake
+
+3. You will then invoke the second API service to interface with Snowflake and bring back results into Streamlit
+
 ## Part 1
 
 ### Prerequisites
@@ -88,6 +105,7 @@ with validation rules for ensuring that certain fields do not contain quote char
 https://codelabs-preview.appspot.com/?file_id=1RZZROUo16zwfhLtBKI-qXTX5UDkoSCVcJggsNoXKmKI#0
 
   ## Contribution
+WE ATTEST THAT WE HAVEN'T USED ANY OTHER STUDENTS' WORK IN OUR ASSIGNMENT AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK
 
 | Contributor | Contributions            | Percentage |
 |-------------|--------------------------|------------|
