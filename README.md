@@ -66,7 +66,7 @@ https://codelabs-preview.appspot.com/?file_id=1X3w1C1zy9iA9h1K6L0akphRAeo6Wu1083
 
 | Contributor | Contributions            | Percentage |
 |-------------|--------------------------|------------|
-| Dev Mithunisvar Premraj       | Created Dag in Airflow, worked on the tasks() in airflow, created the streamlit UI.
+| Dev Mithunisvar Premraj       | Created Dag in Airflow, worked on the tasks() in airflow, created the streamlit UI.|33.33%|
 | Aneesh Koka        | Worked on Dag in Airflow, GCP and deployment | 33.33% |
 | Rishabh Shah         | Created two Fast API for user interaction and trigerring airflow, worked on DAG| 33.33% |
 
