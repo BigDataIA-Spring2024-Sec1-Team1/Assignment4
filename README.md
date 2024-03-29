@@ -5,10 +5,13 @@
 ### Prerequisites
 
 Before running the script, ensure you have the following installed:
-- Python
-- Selenium
-- Chrome WebDriver (or a driver for your preferred browser)
+- Airflow
+- Streamlit
+- PyPDF/GROBID
 - Pytest and Pydantic for testing and validation
+- FastAPI
+- Snowflake
+- AWS account
 
 
 You can install PyDantic using pip:
@@ -52,36 +55,6 @@ It includes fields like file_size_bytes, num_pages, s3_grobid_text_link, file_pa
 The model also includes validators for ensuring that certain fields meet specific criteria, 
 such as being positive integers, having a specific date format, and not containing HTML or quote characters.
 
-## Part 2: Using DBT
-
-### Prerequisites
-
-Before running the script, ensure you have the following installed:
-- DBT 
-- Snowflake
-  
-## Description
-
-DBT:
-
-- DBT stands for Data Build Tool.
-- It's an open-source command-line tool for transforming, testing, and documenting data in a data warehouse.
-- DBT focuses on SQL-based transformations applied to data residing in a data warehouse.
-- Transformations are organized into modular SQL files called "models."
-- It automatically manages dependencies between models for efficient incremental builds.
-- DBT includes a built-in testing framework for data quality checks and assertions.
-- It generates documentation for data models based on metadata defined in SQL files.
-- Projects are typically version-controlled using Git for tracking changes and collaboration.
-
-  ## Steps
-
-- Loaded the clean data into Snowflake
-- You intend to create a summary table with the following schema using DBT. (Level, Topic, Year, Number of articles, Min Length (Summary), Max Length (Summary), Min Length (Learning outcomes), Max Length (Learning outcomes))
-- Materialize it to a new table
-- Write tests to validate the new columns
-- Document your model
-- Commit and Deploy the model
-- Create a Test and Production Environment
 
 
 
