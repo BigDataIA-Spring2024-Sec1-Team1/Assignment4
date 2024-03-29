@@ -1,5 +1,9 @@
 # Assignment 4
+Architecture Diagram
 ![Architecture Diagram](https://github.com/BigDataIA-Spring2024-Sec1-Team1/Assignment4/blob/main/architecture_diagram.png)
+
+Airflow ETL Architecture
+![Airflow ETL Architecture](https://github.com/BigDataIA-Spring2024-Sec1-Team1/Assignment4/blob/main/airflow_etl_architecture.png)
 ## Part 1
 
 ### Prerequisites
