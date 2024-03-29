@@ -1,0 +1,18 @@
+requests
+python-dotenv
+snowflake-sqlalchemy
+SQLAlchemy
+pandas
+boto3
+PyPDF2
+scrapy
+selenium
+webscraping
+scrapy-selenium
+validators
+pydantic 
+pytest
+elementpath
+streamlit
+matplotlib
+pyarrow>=10.0.1,<10.1.0  # Adjust according to your specific compatibility needs
