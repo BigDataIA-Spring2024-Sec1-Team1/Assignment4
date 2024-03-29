@@ -51,13 +51,10 @@ PyTest:
 URLClass: 
 
 ContentPDFClass: Defines a class ContentClass for representing content data. 
-It includes fields like level, title, topic, and learning_outcomes, 
-with validation rules for ensuring that certain fields do not contain HTML or quote characters
+It includes fields like  heading, topic, and learning_outcomes, 
+with validation rules for ensuring that certain fields do not contain quote characters
 
-MetadataPDFClass: Defines a Pydantic model class, DocumentMetadata, which is used for documenting metadata of documents. 
-It includes fields like file_size_bytes, num_pages, s3_grobid_text_link, file_path, encryption, and date_updated. 
-The model also includes validators for ensuring that certain fields meet specific criteria, 
-such as being positive integers, having a specific date format, and not containing HTML or quote characters.
+
 
 
 
@@ -69,7 +66,7 @@ https://codelabs-preview.appspot.com/?file_id=1X3w1C1zy9iA9h1K6L0akphRAeo6Wu1083
 
 | Contributor | Contributions            | Percentage |
 |-------------|--------------------------|------------|
-| Dev Mithunisvar Premraj       | Web scraping data into CSV File and created 9 validations using Pydantic and 15 test cases( 6 pass and 9 fail) using Pytest, created URL class. Created architecture diagram. Cleaned the CSV file which was webscrapped and made a cleaned CSV file.    | 33.33% |
-| Aneesh Koka        | Created two PDF classes, MetaDataPDFClass and ContentPDFClass, to represent the schema for the Grobid output. Created clean CSV files for the two classes. Performed data and schema validation using Pydantic 2. Built 5+5 test cases using Pytest for each of the classes to show how validation would succeed/fail (5 pass and 5 fail) | 33.33% |
-| Rishabh Shah         | Loaded the clean CSV file into Snowflake, created a summary table using DBT, wrote tests to validate columns, documented model, committed and deployed the model using DBT| 33.33% |
+| Dev Mithunisvar Premraj       | Created Dag in Airflow, worked on the tasks() in airflow, created the streamlit UI.
+| Aneesh Koka        | Worked on Dag in Airflow, GCP and deployment | 33.33% |
+| Rishabh Shah         | Created two Fast API for user interaction and trigerring airflow, worked on DAG| 33.33% |
 
