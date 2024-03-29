@@ -10,7 +10,10 @@ import boto3
 from io import BytesIO
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from PyPDF2 import PdfReader
-
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
+import numpy as np
+        
 
 
 dag = DAG('process_text_data',
@@ -68,8 +71,6 @@ def process_text_data():
     # Correct usage with required arguments
     bucket_name = 'bigdatacasestudy4'
     text  = process_recent_pdf_from_s3(bucket_name)
-
-
 
 
 
@@ -161,10 +162,136 @@ def process_text_data():
 
     processed_df = process_dataframe(df)
     print(processed_df.head())
+   
+
+ # Constants for database and table names
+    DB_NAME = 'Details'
+    WAREHOUSE = 'cfa_dev_warehouse'
+    TABLE_CONTENT = 'content_details'
+    TABLE_META = 'metadata_details'
+
+    # Configure connection URL
+    connection_url = URL.create(
+         "snowflake",
+         username='anee13',
+         password='AK@indinc101010',
+         host='dpedynz-sr19718'
+         )
+
+    # SQL commands for setting up the environment
+    sql_create_db = f"CREATE DATABASE IF NOT EXISTS {DB_NAME};"
+    sql_create_warehouse = f"""CREATE WAREHOUSE IF NOT EXISTS {WAREHOUSE} WITH
+    WAREHOUSE_SIZE = 'X-SMALL'
+    AUTO_SUSPEND = 180
+    AUTO_RESUME = TRUE
+    INITIALLY_SUSPENDED = TRUE; 
+"""
+
+# Functions to create tables
+    def setup_table_content(connection):
+        sql = f"""CREATE TABLE IF NOT EXISTS {TABLE_CONTENT} (
+        level TEXT,
+        title TEXT,
+        topic TEXT,
+        outcomes TEXT
+    );"""
+        connection.execute(sql)
+
+    def setup_table_metadata(connection):
+        sql = f"""CREATE TABLE IF NOT EXISTS {TABLE_META} (
+        file_size INT,
+        page_count INT,
+        s3_text_link TEXT, 
+        file_location TEXT,
+        encryption_status TEXT,
+        last_modified TEXT
+    );"""
+        connection.execute(sql)
+
+
+# Function to execute initial setup queries
+    def initiate_db_setup(connection):
+        connection.execute(sql_create_warehouse)
+        connection.execute(sql_create_db)
+        connection.execute(f'USE WAREHOUSE {WAREHOUSE};')
+        connection.execute(f'USE DATABASE {DB_NAME};')
+        setup_table_content(connection=connection)
+        setup_table_metadata(connection=connection)
+
+# Functions for data upload
+    def load_content_data(connection):
+        file_name = 'content_details.csv'
+        sql_copy = f"""COPY INTO {DB_NAME}.PUBLIC.{TABLE_CONTENT}
+        FROM '@{DB_NAME}.PUBLIC.%{TABLE_CONTENT}'
+        FILES = ('{file_name}.gz')
+        FILE_FORMAT = (
+            TYPE = CSV,
+            SKIP_HEADER = 1,
+            FIELD_DELIMITER = ',',
+            IGNORE_SPACE = FALSE,
+            QUOTE = '"',
+            ERROR_ON_BAD_CHARS = TRUE,
+            DATE_STYLE = AUTO,
+            TIME_STYLE = AUTO,
+            TIMESTAMP_STYLE = AUTO
+        )
+        ON_ERROR = STOP
+        PURGE = TRUE
+    """
+        connection.execute(f"PUT file://../clean_csv/{file_name} @{DB_NAME}.PUBLIC.%{TABLE_CONTENT};")
+        connection.execute(sql_copy)
+
+    def load_metadata(connection):
+        file_name = 'metadata_details.csv'
+        sql_copy = f"""COPY INTO {DB_NAME}.PUBLIC.{TABLE_META}
+        FROM '@{DB_NAME}.PUBLIC.%{TABLE_META}'
+        FILES = ('{file_name}.gz')
+        FILE_FORMAT = (
+            TYPE = CSV,
+            SKIP_HEADER = 1,
+            FIELD_DELIMITER = ',',
+            IGNORE_SPACE = FALSE,
+            QUOTE = '"',
+            ERROR_ON_BAD_CHARS = TRUE,
+            DATE_STYLE = AUTO,
+            TIME_STYLE = AUTO,
+            TIMESTAMP_STYLE = AUTO
+        )
+        ON_ERROR = STOP
+        PURGE = TRUE
+    """
+        connection.execute(f"PUT file://../clean_csv/{file_name} @{DB_NAME}.PUBLIC.%{TABLE_META};")
+        connection.execute(sql_copy)
+
+# Role and permission setup
+    def setup_role_permissions(connection):
+        role = 'cfa_dev_role'
+        connection.execute(f'CREATE OR REPLACE ROLE {role};')
+        connection.execute(f'GRANT ROLE {role} TO ROLE SYSADMIN;')
+        connection.execute(f'GRANT ALL ON WAREHOUSE {WAREHOUSE} TO ROLE {role};')
+        connection.execute(f'GRANT ALL ON DATABASE {DB_NAME} TO ROLE {role};')
+        connection.execute(f'GRANT ALL ON ALL SCHEMAS IN DATABASE {DB_NAME} TO ROLE {role};')
+
+# Establish connection and execute queries
+    engine = create_engine(connection_url)
+    try:
+        with engine.connect() as conn:
+            initiate_db_setup(conn)
+            print('Databases, warehouse, and tables setup completed.')
+            setup_role_permissions(conn)
+            print('Role creation and permission grants successful.')
+            load_content_data(conn)
+            print('Content data upload successful.')
+            load_metadata(conn)
+            print('Metadata upload successful.')
+
+    except Exception as error:
+        print(error)
+    finally:
+        engine.dispose()
 
 
 
 process_text_task = PythonOperator(task_id='process_text_data_task',
                                    python_callable=process_text_data,
                                    dag=dag)
-
