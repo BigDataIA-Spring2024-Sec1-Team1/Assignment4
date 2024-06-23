@@ -100,10 +100,6 @@ with validation rules for ensuring that certain fields do not contain quote char
 
 
 
-
-## CodeLab - 
-https://codelabs-preview.appspot.com/?file_id=1RZZROUo16zwfhLtBKI-qXTX5UDkoSCVcJggsNoXKmKI#0
-
   ## Contribution
 WE ATTEST THAT WE HAVEN'T USED ANY OTHER STUDENTS' WORK IN OUR ASSIGNMENT AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK
 
